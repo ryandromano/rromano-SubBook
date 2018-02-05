@@ -1,5 +1,16 @@
+/*
+ * MainActivity
+ *
+ * February 4, 2018
+ *
+ * Copyright © 2018. CMPUT 301. University of Alberta - All Rights Reserved.
+ * You may use, distribute, or modify this code under terms and conditions of the Code of Student Behaviour at University of Alberta.
+ * You can find a copy of the license un this project. Otherwise please contact contact@abc.ca
+ */
+
 package com.example.ryand.rromano_subbook;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,21 +23,30 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+import static android.provider.Telephony.Mms.Part.FILENAME;
 
+public class MainActivity extends AppCompatActivity {
     public ListView subscriptionList;
 
-    public static float price = 0;
-
     public static ArrayList<Subscription> sublist = new ArrayList<Subscription>();
+    public ArrayList<String> subValues;
+    public ArrayAdapter<Subscription> adapter;
 
+    public static float price = 0;
     public static int position;
 
-    public TextView textView;
-
-    public ArrayAdapter<Subscription> adapter;
+    public TextView totalPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,15 +54,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        textView = findViewById(R.id.totalPriceView);
-        textView.setText("$" + String.format("%.2f", price));
+        totalPrice = findViewById(R.id.totalPriceView);
+        totalPrice.setText("$" + String.format("%.2f", price));
 
 
         Button addbutton = (Button)findViewById(R.id.add_button);
         subscriptionList = (ListView) findViewById(R.id.subcriptionList);
 
 
-        //SUB LIST FUNCTIONS AND STUFF
+        /**
+         * Opens the item selected from the the listView.
+         * Opens the ViewActivity based on the selected value from the listView
+         */
+        // Code based on information found at:
+        // https://stackoverflow.com/questions/3184672/what-does-adapterview-mean-in-the-onitemclick-method-what-is-the-use-of-ot
+        // 2018-02-03
         subscriptionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -52,12 +78,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //Go to the AddActivity to make a new subscription
-        addbutton.setOnClickListener(new View.OnClickListener() {
+        /**
+         * Go to the AddActivity to make a new subscription
+         */
+         addbutton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
                 startActivity(new Intent(MainActivity.this, AddActivity.class));
-
             }
         });
 
@@ -66,13 +92,62 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        //System.out.println("HERE HERE HERE HERE");//subscriptionList.getCount());
-        //if (sublist.size() > 0) {
+
         adapter = new ArrayAdapter<Subscription>(this, android.R.layout.simple_list_item_1, sublist);
         subscriptionList.setAdapter(adapter);
-        //}
-        //subscriptionList.setAdapter(adapter);
-        textView.setText("$" + String.format("%.2f", price));
+
+        totalPrice.setText("$" + String.format("%.2f", price));
     }
+
+/**
+    private void loadFromFile() {
+
+        try {
+            FileInputStream fis = openFileInput(FILENAME);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+
+            Gson gson = new Gson();
+
+            //Taken https://stackoverflow.com/questions/12384064/gson-convert-from-json-to-a-typed-arraylistt
+            // 2018-01-24
+
+            Type listType = new TypeToken<ArrayList<NormalTweet>>(){}.getType();
+
+            tweetlist = gson.fromJson(in, listType);
+
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            tweetlist = new ArrayList<Tweet>();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
+
+    private void saveInFile() {
+        try {
+            FileOutputStream fos = openFileOutput(FILENAME,
+                    Context.MODE_PRIVATE);
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+
+            Gson gson = new Gson();
+
+            gson.toJson(tweetlist, out);
+
+            out.flush();
+
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+*/
+
+
+
 
 }

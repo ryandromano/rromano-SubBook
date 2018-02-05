@@ -1,3 +1,13 @@
+/*
+ * ViewActivity
+ *
+ * February 4, 2018
+ *
+ * Copyright © 2018. CMPUT 301. University of Alberta - All Rights Reserved.
+ * You may use, distribute, or modify this code under terms and conditions of the Code of Student Behaviour at University of Alberta.
+ * You can find a copy of the license un this project. Otherwise please contact contact@abc.ca
+ */
+
 package com.example.ryand.rromano_subbook;
 
 import android.content.DialogInterface;
@@ -10,15 +20,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+/**
+ * The view activity allows the user to see the information regarding the selected
+ * subscription. Gives the user the option to edit the information or delete the
+ * subscription.
+ */
 public class ViewActivity extends AppCompatActivity {
-
     private TextView nameView;
     private TextView dateView;
     private TextView priceView;
     private TextView commentView;
 
     private int objectPosition;
-
     private Subscription sub;
 
     @Override
@@ -32,22 +45,28 @@ public class ViewActivity extends AppCompatActivity {
         Button deleteButton = (Button) findViewById(R.id.deleteButton);
         Button editButton = (Button) findViewById(R.id.editButton);
 
+        //Subscription
         sub = MainActivity.sublist.get(objectPosition);
 
-        //Print proper information
+        //Print proper name information
         nameView = (TextView) findViewById(R.id.nameView);
         nameView.setText(sub.getSubName());
 
+        //Print proper date information
         dateView = (TextView) findViewById(R.id.dateView);
-        dateView.setText(sub.getSubDate().toString());
+        dateView.setText(sub.getSubDate());
 
+        //Print proper price information
         priceView = (TextView) findViewById(R.id.priceView);
         priceView.setText(Float.toString(sub.getSubCharge()));
 
+        //Print proper comment information
         commentView = (TextView) findViewById(R.id.commentView);
         commentView.setText(sub.getSubComment());
 
-
+        /**
+         * Takes the user to the editActivity when the edit button is pressed
+         */
         editButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 startActivity(new Intent(ViewActivity.this, EditActivity.class));
@@ -55,9 +74,15 @@ public class ViewActivity extends AppCompatActivity {
             }
         });
 
+        /**
+         * When the user selects the delete button, the user is asked if they really
+         * want to continue with this action. If yes, the current subscription is removed from the
+         * subscription list
+         */
+        // AlertDialog code based on video: https://www.youtube.com/watch?v=G3FgdUsceDM
+        // 2018-02-03
         deleteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
                 // Confirm deletion and return to main page
                 AlertDialog.Builder builder = new AlertDialog.Builder(ViewActivity.this);
                 builder
@@ -71,12 +96,14 @@ public class ViewActivity extends AppCompatActivity {
                                 MainActivity.sublist.remove(objectPosition);
                                 finish();
                             }
+
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog,int id) {
                                 dialog.cancel();
                             }
+
                         })
                         .show();
             }
@@ -84,9 +111,13 @@ public class ViewActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Reloads the information into the textboxes when returning to the ViewActivity
+     */
     @Override
     protected void onStart() {
         super.onStart();
+
         nameView = (TextView) findViewById(R.id.nameView);
         nameView.setText(sub.getSubName());
 
@@ -98,7 +129,6 @@ public class ViewActivity extends AppCompatActivity {
 
         commentView = (TextView) findViewById(R.id.commentView);
         commentView.setText(sub.getSubComment());
-
     }
 
 }

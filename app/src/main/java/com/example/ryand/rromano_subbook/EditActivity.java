@@ -1,3 +1,13 @@
+/*
+ * EditActivity
+ *
+ * February 4, 2018
+ *
+ * Copyright © 2018. CMPUT 301. University of Alberta - All Rights Reserved.
+ * You may use, distribute, or modify this code under terms and conditions of the Code of Student Behaviour at University of Alberta.
+ * You can find a copy of the license un this project. Otherwise please contact contact@abc.ca
+ */
+
 package com.example.ryand.rromano_subbook;
 
 import android.content.Intent;
@@ -6,6 +16,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class EditActivity extends AppCompatActivity {
 
@@ -16,9 +27,12 @@ public class EditActivity extends AppCompatActivity {
     private EditText subPriceEntered;
     private EditText subCommentEntered;
 
-    private float originalPrice;
+    private String fullDate;
+    private String[] dateParts;
 
+    private float originalPrice;
     private int objectPosition;
+
     private Subscription subscription;
 
     @Override
@@ -50,16 +64,36 @@ public class EditActivity extends AppCompatActivity {
         confirmEditButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 originalPrice = subscription.getSubCharge();
-                subscription.setSubName(subNameEntered.getText().toString());
-                //subscription.setSubDate();
-                subscription.setSubCharge(Float.parseFloat(subPriceEntered.getText().toString()));
-                subscription.setSubComment(subCommentEntered.getText().toString());
 
-                //Minus the total amount of money by the old amount and add the new value to it
-                MainActivity.price = MainActivity.price - originalPrice + subscription.getSubCharge();
+                fullDate = subDateEntered.getText().toString();
+                dateParts = fullDate.split("-");
 
-                //Return to newly edited info
-                finish();
+                if (subNameEntered.getText().toString().length() > 20 || subNameEntered.getText().toString().length() == 0) {
+                    Toast.makeText(EditActivity.this, "Subscription name is an improper length", Toast.LENGTH_LONG).show();
+                }
+                else if (dateParts.length != 3) {
+                    Toast.makeText(EditActivity.this, "Improper date value entered", Toast.LENGTH_LONG).show();
+                } else if (Integer.parseInt(dateParts[1]) > 12 || Integer.parseInt(dateParts[1]) < 1) {
+                    Toast.makeText(EditActivity.this, "Improper date value entered", Toast.LENGTH_LONG).show();
+                } else if (Integer.parseInt(dateParts[2]) > 31 || Integer.parseInt(dateParts[2]) < 1) {
+                    Toast.makeText(EditActivity.this, "Improper date value entered", Toast.LENGTH_LONG).show();
+                } else if (Integer.parseInt(dateParts[0]) / 1000 < 1 || Integer.parseInt(dateParts[0]) / 1000 > 9) {
+                    Toast.makeText(EditActivity.this, "Improper date value entered", Toast.LENGTH_LONG).show();
+                } else if (subCommentEntered.getText().toString().length() > 30) {
+                    Toast.makeText(EditActivity.this, "Comment is too long", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    subscription.setSubName(subNameEntered.getText().toString());
+                    subscription.setSubDate(subDateEntered.getText().toString());
+                    subscription.setSubCharge(Float.parseFloat(subPriceEntered.getText().toString()));
+                    subscription.setSubComment(subCommentEntered.getText().toString());
+
+                    //Minus the total amount of money by the old amount and add the new value to it
+                    MainActivity.price = MainActivity.price - originalPrice + subscription.getSubCharge();
+
+                    //Return to newly edited info
+                    finish();
+                }
             }
         });
     }
