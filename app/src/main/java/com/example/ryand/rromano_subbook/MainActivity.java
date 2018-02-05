@@ -37,6 +37,8 @@ import java.util.ArrayList;
 import static android.provider.Telephony.Mms.Part.FILENAME;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String FILENAME = "newfile.sav";
+
     public ListView subscriptionList;
 
     public static ArrayList<Subscription> sublist = new ArrayList<Subscription>();
@@ -98,8 +100,7 @@ public class MainActivity extends AppCompatActivity {
 
         totalPrice.setText("$" + String.format("%.2f", price));
     }
-
-/**
+/*
     private void loadFromFile() {
 
         try {
@@ -108,12 +109,12 @@ public class MainActivity extends AppCompatActivity {
 
             Gson gson = new Gson();
 
-            //Taken https://stackoverflow.com/questions/12384064/gson-convert-from-json-to-a-typed-arraylistt
+            //Taken from the lonely twitter lab example, which was taken from
+            // https://stackoverflow.com/questions/12384064/gson-convert-from-json-to-a-typed-arraylistt
             // 2018-01-24
+            Type listType = new TypeToken<ArrayList<Subscription>>(){}.getType();
 
-            Type listType = new TypeToken<ArrayList<NormalTweet>>(){}.getType();
-
-            tweetlist = gson.fromJson(in, listType);
+            sublist = gson.fromJson(in, listType);
 
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block

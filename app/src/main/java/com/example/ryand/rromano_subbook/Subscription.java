@@ -114,6 +114,14 @@ public class Subscription {
         this.comment = comment;
     }
 
+    /** Overrides the toString() function called when making the list view
+     *
+     */
+    @Override
+    public String toString(){
+        return ""+ this.name+":  " + this.date+ ", " + String.format("%.2f", this.charge);
+    }
+
 }
 
 
