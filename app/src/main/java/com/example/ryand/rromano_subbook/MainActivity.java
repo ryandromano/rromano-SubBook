@@ -10,7 +10,6 @@
 
 package com.example.ryand.rromano_subbook;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,21 +20,15 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-//import com.google.gson.Gson;
-//import com.google.gson.reflect.TypeToken;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-
-import static android.provider.Telephony.Mms.Part.FILENAME;
 
 public class MainActivity extends AppCompatActivity {
     public static final String FILENAME = "newfile.sav";
@@ -95,13 +88,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        loadFromFile();
+
         adapter = new ArrayAdapter<Subscription>(this, android.R.layout.simple_list_item_1, sublist);
         subscriptionList.setAdapter(adapter);
 
         totalPrice.setText("$" + String.format("%.2f", price));
     }
 
-/**
+    /**
+     * Loads saved values from the subscriptionList, for use with the adapter
+     */
     private void loadFromFile() {
 
         try {
@@ -110,44 +107,23 @@ public class MainActivity extends AppCompatActivity {
 
             Gson gson = new Gson();
 
-            //Taken from the lonely twitter lab example, which was taken from
+            // Based on the lonely twitter lab example, which was taken from
             // https://stackoverflow.com/questions/12384064/gson-convert-from-json-to-a-typed-arraylistt
             // 2018-01-24
-            Type listType = new TypeToken<ArrayList<Subscription>>(){}.getType();
+            Type listType = new TypeToken<ArrayList<Subscription>>() {
+            }.getType();
 
             sublist = gson.fromJson(in, listType);
+            price = 0;
+            for(int i = 0; i < sublist.size(); i++) {
+                price += sublist.get(i).getSubCharge();
+            }
 
         } catch (FileNotFoundException e) {
             sublist = new ArrayList<Subscription>();
-        } catch (IOException e) {
-            e.printStackTrace();
+
         }
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        sublist.clear();
-        price = 0;
-
-        try {
-            FileOutputStream fos = openFileOutput(MainActivity.FILENAME,
-                    Context.MODE_PRIVATE);
-            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
-
-            Gson gson = new Gson();
-
-            gson.toJson(MainActivity.sublist, out);
-
-            out.flush();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    */
 }

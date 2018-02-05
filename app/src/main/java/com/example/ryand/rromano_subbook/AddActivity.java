@@ -11,30 +11,20 @@
 package com.example.ryand.rromano_subbook;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-//import com.google.gson.Gson;
+import com.google.gson.Gson;
 
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.lang.reflect.Type;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-
-import static java.lang.System.in;
 
 
 /**
@@ -106,8 +96,10 @@ public class AddActivity extends AppCompatActivity {
                     //Add entered values to the subscription list
                     MainActivity.sublist.add(sub);
 
+                    //Taken from the lonely twitter lab example, which was taken from
+                    // https://stackoverflow.com/questions/12384064/gson-convert-from-json-to-a-typed-arraylistt
+                    // 2018-01-24
                     //Save to file
-                    /*
                     try {
                         FileOutputStream fos = openFileOutput(MainActivity.FILENAME,
                                 Context.MODE_PRIVATE);
@@ -126,7 +118,7 @@ public class AddActivity extends AppCompatActivity {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
-                    */
+
 
                     finish();
                 }

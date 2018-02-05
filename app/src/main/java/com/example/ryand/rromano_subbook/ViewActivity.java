@@ -18,10 +18,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
-//import com.google.gson.Gson;
+import com.google.gson.Gson;
 
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -104,7 +103,9 @@ public class ViewActivity extends AppCompatActivity {
 
                                 MainActivity.sublist.remove(objectPosition);
 
-                                /*
+                                //Taken from the lonely twitter lab example, which was taken from
+                                // https://stackoverflow.com/questions/12384064/gson-convert-from-json-to-a-typed-arraylistt
+                                // 2018-01-24
                                 //Save to file
                                 try {
                                     FileOutputStream fos = openFileOutput(MainActivity.FILENAME,
@@ -114,7 +115,6 @@ public class ViewActivity extends AppCompatActivity {
                                     Gson gson = new Gson();
 
                                     gson.toJson(MainActivity.sublist, out);
-                                    //gson.toJson(MainActivity.price, out);
 
                                     out.flush();
 
@@ -125,7 +125,7 @@ public class ViewActivity extends AppCompatActivity {
                                     // TODO Auto-generated catch block
                                     e.printStackTrace();
                                 }
-                                   */
+
                                 finish();
                             }
 

@@ -10,9 +10,6 @@
 
 package com.example.ryand.rromano_subbook;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 /**
  * Created by ryand on 2018-02-03.
  */
@@ -114,12 +111,12 @@ public class Subscription {
         this.comment = comment;
     }
 
-    /** Overrides the toString() function called when making the list view
-     *
+    /**
+     * Overrides the toString() function called when making the list view
      */
     @Override
     public String toString(){
-        return ""+ this.name+":  " + this.date+ ", " + String.format("%.2f", this.charge);
+        return ""+ this.name+":  " + this.date+ ",  " + String.format("$%.2f", this.charge);
     }
 
 }
