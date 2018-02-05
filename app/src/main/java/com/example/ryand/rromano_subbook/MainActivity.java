@@ -20,11 +20,13 @@ public class MainActivity extends AppCompatActivity {
 
     public static float price = 0;
 
-    public static ArrayList<String> sublist = new ArrayList<String>();
+    public static ArrayList<Subscription> sublist = new ArrayList<Subscription>();
+
+    public static int position;
 
     public TextView textView;
 
-    public ArrayAdapter<String> adapter;
+    public ArrayAdapter<Subscription> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +43,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         //SUB LIST FUNCTIONS AND STUFF
-        adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, sublist);
-        subscriptionList.setAdapter(adapter);
         subscriptionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //Toast.makeText(MainActivity.this, sublist.get(i), Toast.LENGTH_SHORT).show();
+                position = i;
                 startActivity(new Intent(MainActivity.this, ViewActivity.class));
 
             }
@@ -66,7 +66,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        //System.out.println("HERE HERE HERE HERE");//subscriptionList.getCount());
+        //if (sublist.size() > 0) {
+        adapter = new ArrayAdapter<Subscription>(this, android.R.layout.simple_list_item_1, sublist);
         subscriptionList.setAdapter(adapter);
+        //}
+        //subscriptionList.setAdapter(adapter);
         textView.setText("$" + String.format("%.2f", price));
     }
 

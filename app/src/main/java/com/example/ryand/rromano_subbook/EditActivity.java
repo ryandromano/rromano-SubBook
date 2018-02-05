@@ -16,8 +16,10 @@ public class EditActivity extends AppCompatActivity {
     private EditText subPriceEntered;
     private EditText subCommentEntered;
 
-    private String originalPrice;
+    private float originalPrice;
 
+    private int objectPosition;
+    private Subscription subscription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,44 +27,40 @@ public class EditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit);
 
 
+        objectPosition = MainActivity.position;
+        subscription = MainActivity.sublist.get(objectPosition);
+
+
         Button confirmEditButton = (Button) findViewById(R.id.confirmEdit);
 
         //Print proper information
         subNameEntered = (EditText) findViewById(R.id.subNameEdit);
-        subNameEntered.setText("OH");
+        subNameEntered.setText(subscription.getSubName());
 
         subDateEntered = (EditText) findViewById(R.id.subDateEdit);
-        subDateEntered.setText("MY");
-
+        subDateEntered.setText(subscription.getSubDate());
 
         subPriceEntered = (EditText) findViewById(R.id.subPriceEdit);
-        originalPrice = subPriceEntered.getText().toString();
-        subPriceEntered.setText("Gosh");
+        subPriceEntered.setText(Float.toString(subscription.getSubCharge()));
 
         subCommentEntered = (EditText) findViewById(R.id.subCommentEdit);
-        subCommentEntered.setText("Bleh, this sucks.");
+        subCommentEntered.setText(subscription.getSubComment());
+
 
         confirmEditButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                originalPrice = subscription.getSubCharge();
+                subscription.setSubName(subNameEntered.getText().toString());
+                //subscription.setSubDate();
+                subscription.setSubCharge(Float.parseFloat(subPriceEntered.getText().toString()));
+                subscription.setSubComment(subCommentEntered.getText().toString());
 
                 //Minus the total amount of money by the old amount and add the new value to it
-                MainActivity.price = MainActivity.price - Float.parseFloat(originalPrice) + Float.parseFloat(subPriceEntered.getText().toString());
-
-                //Add entered values to the subscription list
-                //MainActivity.sublist.add("1");
+                MainActivity.price = MainActivity.price - originalPrice + subscription.getSubCharge();
 
                 //Return to newly edited info
                 finish();
-
-
-                //startActivity(new Intent(EditActivity.this, MainActivity.class));
             }
         });
-
-        //confirmConfigure();
     }
-
-
-
-
 }

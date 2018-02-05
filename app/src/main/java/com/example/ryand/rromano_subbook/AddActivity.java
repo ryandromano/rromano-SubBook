@@ -3,9 +3,11 @@ package com.example.ryand.rromano_subbook;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.lang.reflect.Type;
 import java.text.DateFormat;
@@ -36,9 +38,6 @@ public class AddActivity extends AppCompatActivity {
         priceEntered = (EditText) findViewById(R.id.subPrice);
         commentEntered = (EditText) findViewById(R.id.subComment);
 
-        //Date date = new SimpleDateFormat("yyyy-MM-dd").parse(sDate);
-
-
         confirmAddButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String sDate = dateEntered.getText().toString();
@@ -48,19 +47,17 @@ public class AddActivity extends AppCompatActivity {
 
                 }
 
-
                 //String name = nameEntered.getText().toString();
                 Subscription sub = new Subscription(nameEntered.getText().toString(), date,
-                                                       Float.parseFloat(priceEntered.getText().toString()),
-                                                       commentEntered.getText().toString());
-
-                MainActivity.sublist.add(sub);
+                                                    Float.parseFloat(priceEntered.getText().toString()),
+                                                    commentEntered.getText().toString());
 
 
                 //Adds value entered to the total subscription cost
                 MainActivity.price = MainActivity.price + Float.parseFloat(priceEntered.getText().toString());
+
                 //Add entered values to the subscription list
-                MainActivity.sublist.add(nameEntered.getText().toString());
+                MainActivity.sublist.add(sub);
 
                 finish();
             }

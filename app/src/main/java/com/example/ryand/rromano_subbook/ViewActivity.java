@@ -17,31 +17,35 @@ public class ViewActivity extends AppCompatActivity {
     private TextView priceView;
     private TextView commentView;
 
+    private int objectPosition;
+
+    private Subscription sub;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState, Subscription sub) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view);
+
+        objectPosition = MainActivity.position;
 
         //Button definitions
         Button deleteButton = (Button) findViewById(R.id.deleteButton);
         Button editButton = (Button) findViewById(R.id.editButton);
 
-
+        sub = MainActivity.sublist.get(objectPosition);
 
         //Print proper information
         nameView = (TextView) findViewById(R.id.nameView);
         nameView.setText(sub.getSubName());
 
         dateView = (TextView) findViewById(R.id.dateView);
-        dateView.setText(sub.getSubDate());
+        dateView.setText(sub.getSubDate().toString());
 
         priceView = (TextView) findViewById(R.id.priceView);
-        priceView.setText(sub.getSubCharge());
+        priceView.setText(Float.toString(sub.getSubCharge()));
 
         commentView = (TextView) findViewById(R.id.commentView);
         commentView.setText(sub.getSubComment());
-
-
 
 
         editButton.setOnClickListener(new View.OnClickListener() {
@@ -56,13 +60,15 @@ public class ViewActivity extends AppCompatActivity {
 
                 // Confirm deletion and return to main page
                 AlertDialog.Builder builder = new AlertDialog.Builder(ViewActivity.this);
-
                 builder
                         .setMessage("Are you sure you want to delete this subscription?")
                         .setPositiveButton("Yes",  new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
                                 //GET RID OF THE SUBSCRIPTION THAT YOU ARE CURRENTLY VIEWING
+                                MainActivity.price = MainActivity.price - Float.parseFloat(priceView.getText().toString());
+
+                                MainActivity.sublist.remove(objectPosition);
                                 finish();
                             }
                         })
@@ -75,6 +81,23 @@ public class ViewActivity extends AppCompatActivity {
                         .show();
             }
         });
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        nameView = (TextView) findViewById(R.id.nameView);
+        nameView.setText(sub.getSubName());
+
+        dateView = (TextView) findViewById(R.id.dateView);
+        dateView.setText(sub.getSubDate().toString());
+
+        priceView = (TextView) findViewById(R.id.priceView);
+        priceView.setText(Float.toString(sub.getSubCharge()));
+
+        commentView = (TextView) findViewById(R.id.commentView);
+        commentView.setText(sub.getSubComment());
 
     }
 
