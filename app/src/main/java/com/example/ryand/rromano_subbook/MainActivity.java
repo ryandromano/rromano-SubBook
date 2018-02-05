@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
 
     public TextView textView;
 
+    public ArrayAdapter<String> adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         textView = findViewById(R.id.totalPriceView);
-        textView.setText("$" + String.format("%.2f", price));//Float.toString(price));
+        textView.setText("$" + String.format("%.2f", price));
 
 
         Button addbutton = (Button)findViewById(R.id.add_button);
@@ -39,10 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //SUB LIST FUNCTIONS AND STUFF
-        //sublist.add("hi");
-        //sublist.add("bye");
-        //sublist.add("ME");
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, sublist);
+        adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, sublist);
         subscriptionList.setAdapter(adapter);
         subscriptionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -66,28 +65,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-        // TODO Auto-generated method stub
         super.onStart();
-        textView.setText("$" + String.format("%.2f", price));//Float.toString(price));
+        subscriptionList.setAdapter(adapter);
+        textView.setText("$" + String.format("%.2f", price));
     }
-
-       // addConfigure();
-    //}
-
-    /** MAYBE HOW TO DO BUTTONS?
-    private void addConfigure() {
-        Button addbutton = (Button)findViewById(R.id.add_button);
-
-        subscriptionList = (ListView) findViewById(R.id.subcriptionList);
-
-        addbutton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                startActivity(new Intent(MainActivity.this, AddActivity.class));
-
-            }
-        });
-    }
-    */
 
 }
