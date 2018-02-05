@@ -21,7 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
+//import com.google.gson.Gson;
 
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -104,6 +104,7 @@ public class ViewActivity extends AppCompatActivity {
 
                                 MainActivity.sublist.remove(objectPosition);
 
+                                /*
                                 //Save to file
                                 try {
                                     FileOutputStream fos = openFileOutput(MainActivity.FILENAME,
@@ -124,7 +125,7 @@ public class ViewActivity extends AppCompatActivity {
                                     // TODO Auto-generated catch block
                                     e.printStackTrace();
                                 }
-
+                                   */
                                 finish();
                             }
 

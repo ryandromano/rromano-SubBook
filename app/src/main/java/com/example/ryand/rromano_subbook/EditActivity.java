@@ -19,8 +19,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -101,6 +99,7 @@ public class EditActivity extends AppCompatActivity {
                     MainActivity.price = MainActivity.price - originalPrice + subscription.getSubCharge();
 
                     //Save to file
+                    /*
                     try {
                         FileOutputStream fos = openFileOutput(MainActivity.FILENAME,
                                 Context.MODE_PRIVATE);
@@ -120,6 +119,7 @@ public class EditActivity extends AppCompatActivity {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
+                       */
 
                     //Return to newly edited info
                     finish();

@@ -21,8 +21,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+//import com.google.gson.Gson;
+//import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -95,15 +95,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        loadFromFile();
-
         adapter = new ArrayAdapter<Subscription>(this, android.R.layout.simple_list_item_1, sublist);
         subscriptionList.setAdapter(adapter);
 
         totalPrice.setText("$" + String.format("%.2f", price));
     }
 
-
+/**
     private void loadFromFile() {
 
         try {
@@ -126,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-/**
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

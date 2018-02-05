@@ -20,7 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
+//import com.google.gson.Gson;
 
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -107,6 +107,7 @@ public class AddActivity extends AppCompatActivity {
                     MainActivity.sublist.add(sub);
 
                     //Save to file
+                    /*
                     try {
                         FileOutputStream fos = openFileOutput(MainActivity.FILENAME,
                                 Context.MODE_PRIVATE);
@@ -125,6 +126,7 @@ public class AddActivity extends AppCompatActivity {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
+                    */
 
                     finish();
                 }
