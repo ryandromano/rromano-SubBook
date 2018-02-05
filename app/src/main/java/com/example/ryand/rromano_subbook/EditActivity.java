@@ -10,6 +10,7 @@
 
 package com.example.ryand.rromano_subbook;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +18,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
+
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 public class EditActivity extends AppCompatActivity {
 
@@ -90,6 +99,27 @@ public class EditActivity extends AppCompatActivity {
 
                     //Minus the total amount of money by the old amount and add the new value to it
                     MainActivity.price = MainActivity.price - originalPrice + subscription.getSubCharge();
+
+                    //Save to file
+                    try {
+                        FileOutputStream fos = openFileOutput(MainActivity.FILENAME,
+                                Context.MODE_PRIVATE);
+                        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+
+                        Gson gson = new Gson();
+
+                        gson.toJson(MainActivity.sublist, out);
+                        //gson.toJson(MainActivity.price, out);
+
+                        out.flush();
+
+                    } catch (FileNotFoundException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
 
                     //Return to newly edited info
                     finish();

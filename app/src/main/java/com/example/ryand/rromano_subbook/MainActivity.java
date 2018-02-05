@@ -15,13 +15,14 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewDebug;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -37,12 +38,11 @@ import java.util.ArrayList;
 import static android.provider.Telephony.Mms.Part.FILENAME;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String FILENAME = "newfile.sav";
+    public static final String FILENAME = "newfile.sav";
 
     public ListView subscriptionList;
 
     public static ArrayList<Subscription> sublist = new ArrayList<Subscription>();
-    public ArrayList<String> subValues;
     public ArrayAdapter<Subscription> adapter;
 
     public static float price = 0;
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     public TextView totalPrice;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -95,12 +95,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        loadFromFile();
+
         adapter = new ArrayAdapter<Subscription>(this, android.R.layout.simple_list_item_1, sublist);
         subscriptionList.setAdapter(adapter);
 
         totalPrice.setText("$" + String.format("%.2f", price));
     }
-/*
+
+
     private void loadFromFile() {
 
         try {
@@ -117,38 +120,36 @@ public class MainActivity extends AppCompatActivity {
             sublist = gson.fromJson(in, listType);
 
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            tweetlist = new ArrayList<Tweet>();
+            sublist = new ArrayList<Subscription>();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
     }
+/**
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
 
-    private void saveInFile() {
+        sublist.clear();
+        price = 0;
+
         try {
-            FileOutputStream fos = openFileOutput(FILENAME,
+            FileOutputStream fos = openFileOutput(MainActivity.FILENAME,
                     Context.MODE_PRIVATE);
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
 
             Gson gson = new Gson();
 
-            gson.toJson(tweetlist, out);
+            gson.toJson(MainActivity.sublist, out);
 
             out.flush();
 
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
-*/
-
-
-
-
+    */
 }

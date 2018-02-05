@@ -10,6 +10,7 @@
 
 package com.example.ryand.rromano_subbook;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
@@ -19,6 +20,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
+
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 /**
  * The view activity allows the user to see the information regarding the selected
@@ -94,6 +103,28 @@ public class ViewActivity extends AppCompatActivity {
                                 MainActivity.price = MainActivity.price - Float.parseFloat(priceView.getText().toString());
 
                                 MainActivity.sublist.remove(objectPosition);
+
+                                //Save to file
+                                try {
+                                    FileOutputStream fos = openFileOutput(MainActivity.FILENAME,
+                                            Context.MODE_PRIVATE);
+                                    BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+
+                                    Gson gson = new Gson();
+
+                                    gson.toJson(MainActivity.sublist, out);
+                                    //gson.toJson(MainActivity.price, out);
+
+                                    out.flush();
+
+                                } catch (FileNotFoundException e) {
+                                    // TODO Auto-generated catch block
+                                    e.printStackTrace();
+                                } catch (IOException e) {
+                                    // TODO Auto-generated catch block
+                                    e.printStackTrace();
+                                }
+
                                 finish();
                             }
 

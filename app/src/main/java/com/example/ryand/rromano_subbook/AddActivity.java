@@ -10,6 +10,7 @@
 
 package com.example.ryand.rromano_subbook;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +20,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -97,6 +105,27 @@ public class AddActivity extends AppCompatActivity {
 
                     //Add entered values to the subscription list
                     MainActivity.sublist.add(sub);
+
+                    //Save to file
+                    try {
+                        FileOutputStream fos = openFileOutput(MainActivity.FILENAME,
+                                Context.MODE_PRIVATE);
+                        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+
+                        Gson gson = new Gson();
+
+                        gson.toJson(MainActivity.sublist, out);
+
+                        out.flush();
+
+                    } catch (FileNotFoundException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+
                     finish();
                 }
             }
